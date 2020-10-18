@@ -1,57 +1,47 @@
 <?php
-  defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-  class Login extends CI_Controller {
-    public function __construct()
-    {
-      parent::__construct();
-      $this->load->model('M_login');
-    }
+class Login extends MY_Controller {
+	public function __construct(){
+		parent::__construct();
+		$this->load->helper('url');
+	}
 
-    public function index()
-    {
-      $data = array(
-        'title' => "Login"
-      );
-      $this->load->view('login', $data);
-    }
+	public function index(){
+		$this->sessionIn(); //check session
+		$this->load->view('login_page');
+	}
 
-    public function processLogin()
-    {
-      $this->form_validation->set_rules('email','Email','required');
-      $this->form_validation->set_rules('password','Password','required');
+	public function loginProcess(){
+		$this->load->model('Crud'); //load model
+		$email = $this->input->post('email');
+		$password = md5($this->input->post('password'));
+		$query = $this->Crud->read('app_users', array('email'=>$email, 'password'=>$password), null, null);
+		if($query->num_rows()==0){
+			redirect(base_url('').'?balasan=1');
+		}else{
+			$this->load->driver('session'); //activate sessionp
+			foreach($query->result() as $result){
+				$id_user = $result->idpetugas;
+				$kategori = $result->kategori;
+				$nama = $result->nama;
+			}
+			$this->session->set_userdata('iduser', $id_user);
+			$this->session->set_userdata('levelaks', $kategori);
+			$this->session->set_userdata('nama', $nama);
+			if($kategori==3){
+				redirect(base_url('main/home'), 'refresh');
+			}else{
+				redirect(base_url('main/home'), 'refresh');
+				// $this->load->view("layouts/main");
+			}
+		}
+	}
 
-      if($this->form_validation->run() == TRUE){
-        $email = $this->input->post('email',TRUE);
-        $password = $this->input->post('password',TRUE);
-        $cek = $this->M_login->cek_user($email, $password);
-
-        if( $cek->num_rows() != 1){
-          $this->session->set_flashdata('msg','Email Dan Password Salah');
-          redirect(base_url('login'));
-        }else {
-          $users = $cek->row();
-          $data_session = array(
-            'id' => $users->id,
-            'nama' => $users->nama,
-            'email' => $users->email,
-            'status' => 'login',
-            'role' => $users->role,
-          );
-
-          $this->session->set_userdata($data_session);
-
-          redirect(base_url('barang'));
-        }
-      } else {
-        redirect(base_url('login'));
-      }
-      // redirect('barang');
-    }
-
-    public function logout()
-    {
-      session_destroy();
-      redirect('login');
-    }
-  }
+	public function logoutProcess(){
+		$this->load->driver('session'); //activate session
+		$this->session->unset_userdata('iduser');
+		$this->session->unset_userdata('levelaks');
+		redirect(base_url(''), 'refresh');
+	}
+}
