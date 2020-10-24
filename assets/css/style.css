@@ -181,3 +181,23 @@
 	flex: 12 1 auto;
 	padding: 20px;
 }
+
+.count-expired {
+	background: #672e2e;
+	width: 20%;
+	padding: 2rem;
+	text-align: center;
+	border-radius: 10px;
+	text-decoration: none;
+	color: white;
+	font-weight: bold;
+	margin: 0 auto;
+}
+
+.count-title {
+	font-size: 1.5rem;
+}
+
+.count {
+	font-size: 6rem;
+}

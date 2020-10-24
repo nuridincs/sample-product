@@ -7,11 +7,11 @@
 			<thead>
 				<tr>
 				<th class="text-center">Nomor</th>
-					<th>Kode Barang</th>
-					<th>Nama Barang</th>
+					<th>Kode Produk</th>
+					<th>Nama Produk</th>
 					<th>Tanggal Expired</th>
 					<th>Status</th>
-					<th>Barcode</th>
+					<!-- <th>Barcode</th> -->
 					<th>Action</th>
 				</tr>
 				</tr>
@@ -19,16 +19,16 @@
 			<tbody>
 			<?php
 				$no = 0;
-				foreach($result->result() as $data){
+				foreach($result as $data){
 					$no++;
 			?>
 				<tr>
 				<td><?= $no; ?></td>
-				<td><?= $data->kode_barang ?></td>
-				<td><?= $data->nama_barang ?></td>
+				<td><?= $data->kode_product ?></td>
+				<td><?= $data->nama_product ?></td>
 				<td><?= date('d-m-Y', strtotime($data->expired_date)) ?></td>
 				<td><span class="label label-danger">Kadaluarsa</span></td>
-				<td><?= $data->barcode ?></td>
+				<!-- <td><?= $data->barcode ?></td> -->
 				<td>
 					<a href="form/form_barang/edit/<?= $data->id ?>" class="btn btn-icon btn-primary">Cetak</a>
 					<button class="btn btn-icon btn-danger" data-toggle="tooltip" data-placement="top" title data-original-title="Hapus Barang" data-confirm="Apa Anda yakin ingin menghapus data ini?" data-confirm-yes="deleteData('<?= $data->id ?>');">Hapus</button>

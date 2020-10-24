@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.27)
 # Database: db_sample_product
-# Generation Time: 2020-10-18 08:16:38 +0000
+# Generation Time: 2020-10-24 08:16:43 +0000
 # ************************************************************
 
 
@@ -20,34 +20,61 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
-# Dump of table app_master_barang
+# Dump of table app_master_product
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `app_master_barang`;
+DROP TABLE IF EXISTS `app_master_product`;
 
-CREATE TABLE `app_master_barang` (
+CREATE TABLE `app_master_product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `kode_barang` int(11) DEFAULT NULL,
-  `nama_barang` varchar(50) DEFAULT NULL,
+  `kode_product` int(11) DEFAULT NULL,
+  `nama_product` varchar(50) DEFAULT NULL,
   `harga` int(11) DEFAULT '0',
-  `status` varchar(30) DEFAULT '1' COMMENT '0 = expired, 1 ready',
-  `expired_date` date DEFAULT NULL,
-  `barcode` varchar(100) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `kode_barang` (`kode_barang`)
+  KEY `kode_barang` (`kode_product`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `app_master_barang` WRITE;
-/*!40000 ALTER TABLE `app_master_barang` DISABLE KEYS */;
+LOCK TABLES `app_master_product` WRITE;
+/*!40000 ALTER TABLE `app_master_product` DISABLE KEYS */;
 
-INSERT INTO `app_master_barang` (`id`, `kode_barang`, `nama_barang`, `harga`, `status`, `expired_date`, `barcode`, `created_at`)
+INSERT INTO `app_master_product` (`id`, `kode_product`, `nama_product`, `harga`, `created_at`)
 VALUES
-	(1,989432,'TEST BARANG',0,'1','2020-12-30',NULL,'2020-09-06 00:00:00'),
-	(2,989433,'TEST BARANG 2',0,'1','2020-10-17',NULL,'2020-09-06 21:59:42'),
-	(3,989434,'TEST BARANG 3',0,'0','2020-09-30',NULL,'2020-09-06 21:59:42');
+	(1,989432,'TEST BARANG',100000,'2020-09-06 00:00:00'),
+	(2,989433,'TEST BARANG 2',500000,'2020-09-06 21:59:42'),
+	(3,989434,'TEST BARANG 3',200000,'2020-09-06 21:59:42');
 
-/*!40000 ALTER TABLE `app_master_barang` ENABLE KEYS */;
+/*!40000 ALTER TABLE `app_master_product` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table app_sample_product
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `app_sample_product`;
+
+CREATE TABLE `app_sample_product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `kode_product` int(11) DEFAULT NULL,
+  `status` varchar(30) DEFAULT '1' COMMENT '0 = expired, 1 ready',
+  `expired_date` date DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `kode_barang` (`kode_product`),
+  CONSTRAINT `barang` FOREIGN KEY (`kode_product`) REFERENCES `app_master_product` (`kode_product`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `app_sample_product` WRITE;
+/*!40000 ALTER TABLE `app_sample_product` DISABLE KEYS */;
+
+INSERT INTO `app_sample_product` (`id`, `kode_product`, `status`, `expired_date`, `created_at`)
+VALUES
+	(4,989432,'1','2020-12-01','2020-10-24 12:47:11'),
+	(5,989433,'1','2020-10-30','2020-10-24 12:47:11'),
+	(6,989434,'0','2020-10-01','2020-10-24 12:47:11'),
+	(7,989433,'1','2020-10-28','2020-10-24 14:04:25');
+
+/*!40000 ALTER TABLE `app_sample_product` ENABLE KEYS */;
 UNLOCK TABLES;
 
 

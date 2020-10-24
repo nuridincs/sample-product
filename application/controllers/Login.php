@@ -20,26 +20,20 @@ class Login extends MY_Controller {
 		if($query->num_rows()==0){
 			redirect(base_url('').'?balasan=1');
 		}else{
-			$this->load->driver('session'); //activate sessionp
-			foreach($query->result() as $result){
-				$id_user = $result->idpetugas;
-				$kategori = $result->kategori;
-				$nama = $result->nama;
-			}
+			$result = $query->row();
+			$id_user = $result->id;
+			$nama = $result->nama;
+			$role = $result->role;
+
 			$this->session->set_userdata('iduser', $id_user);
-			$this->session->set_userdata('levelaks', $kategori);
 			$this->session->set_userdata('nama', $nama);
-			if($kategori==3){
-				redirect(base_url('main/home'), 'refresh');
-			}else{
-				redirect(base_url('main/home'), 'refresh');
-				// $this->load->view("layouts/main");
-			}
+			$this->session->set_userdata('role', $role);
+
+			redirect(base_url('main/home'), 'refresh');
 		}
 	}
 
 	public function logoutProcess(){
-		$this->load->driver('session'); //activate session
 		$this->session->unset_userdata('iduser');
 		$this->session->unset_userdata('levelaks');
 		redirect(base_url(''), 'refresh');

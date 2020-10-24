@@ -37,13 +37,7 @@
                         <div class="well" style="width: 100%;">
 		                    <div class="form-group">
                                 <div class="form-group">
-                                    <a href="<?php echo base_url('main/bynoinduk'); ?>" class="btn btn-success btn-block">Input No. Induk</a>
-                                </div>
-                                <div class="form-group">
-                                    <button class="btn btn-primary btn-block p_inout" id="in">Parkir</button>
-                                </div>
-                                <div class="form-group">
-                                    <button class="btn btn-danger btn-block p_inout" id="out">Keluar</button>
+                                    <button class="btn btn-primary btn-block" id="check-product">Cek Produk</button>
                                 </div>
                             </div>
                         </div>

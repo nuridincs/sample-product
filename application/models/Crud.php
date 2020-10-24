@@ -29,6 +29,23 @@ class Crud extends CI_Model{
 		return $query;
 	}
 
+	function getBarang($status = null, $id = null) {
+		$this->db->select('*');
+		$this->db->from('app_master_product');
+		$this->db->join('app_sample_product', 'app_sample_product.kode_product=app_master_product.kode_product');
+		if ($status != null) {
+			$this->db->where('app_sample_product.status='.$status);
+		}
+
+		if ($id != null) {
+			$this->db->where('app_sample_product.id='.$id);
+		}
+		$query = $this->db->get();
+		// echo $this->db->last_query();
+
+		return $query->result();
+	}
+
 	function readPaging($table, $cond, $ordField, $ordType, $limit, $start){
 		if($cond!=null){
 			$this->db->where($cond);

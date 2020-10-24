@@ -22,9 +22,10 @@
 
 			<?php }else{ ?>
 				<a class="navbar-brand" href="<?php echo base_url('main/home'); ?>">Home</a>
-				<a class="navbar-brand" href="<?php echo base_url('main/masterBarang'); ?>">Master Barang</a>
+				<a class="navbar-brand" href="<?php echo base_url('main/masterProduct'); ?>">Master Produk</a>
+				<a class="navbar-brand" href="<?php echo base_url('main/sampleProduct'); ?>">Daftar Sampel</a>
 				<a class="navbar-brand" href="<?php echo base_url('main/scanBarcode'); ?>">Scan Barcode</a>
-				<a class="navbar-brand" href="<?php echo base_url('main/barangExpired'); ?>">Barang Expired</a>
+				<a class="navbar-brand" href="<?php echo base_url('main/productExpired'); ?>">Product Expired</a>
 				<a class="navbar-brand" href="<?php echo base_url('main/kelolaUser'); ?>">Kelola User</a>
 				<a class="navbar-brand" href="<?php echo base_url('main/report'); ?>">Laporan</a>
 			<?php } ?>
@@ -71,6 +72,7 @@
  	$(document).ready(function(){
 		var date_input=$('input[name="date"]'); //our date input has the name "date"
 		var date_input_2 =$('input[name="date_2"]'); //our date input has the name "date"
+		var expired_date =$('input[name="expired_date"]');
 		var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
 		date_input.datepicker({
 			format: 'yyyy-mm-dd',//yyyy-mm-dd
@@ -85,5 +87,18 @@
 			todayHighlight: true,
 			autoclose: true,
 		})
+
+		expired_date.datepicker({
+				format: 'yyyy-mm-dd',
+				container: container,
+				todayHighlight: true,
+				autoclose: true,
+				daysOfWeekDisabled: '0,6',
+				todayHighlight: true,
+				orientation: 'bottom'
+				// disableTouchKeyboard: true,
+				// inputs: $('input[name="date-range-start-date"],input[name="date-range-end-date"]').toArray(),
+        // container: '#date-range-picker-container'
+			})
 	})
 </script>

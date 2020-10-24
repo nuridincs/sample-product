@@ -9,28 +9,45 @@
 		}
 
 		public function index(){
-			$this->load->view("index");
+			$this->home();
 		}
 
 		public function home(){
-			if($this->session->userdata('levelaks') == 2){
-				$data['dosen'] = $this->main->get_data('dosen');
-				$data['mahasiswa'] = $this->main->get_data('mahasiswa');
-				$data['pegawai'] = $this->main->get_data('pegawai');
-			}
 			$data['content'] = "content/dashboard";
-			$this->load->view("layouts/main",$data);
-		}
+			$data['result'] = $this->crud->getBarang(1);
+			$count = 0;
+			foreach ($data['result'] as $value) {
+				$today = date('Y-m-d');
+				$date1 = new DateTime($today);
+				$date2 = new DateTime($value->expired_date);
+				$interval = $date1->diff($date2);
+				$willExpiredDay = $interval->days;
 
-		public function masterBarang(){
-			$data['content'] = "content/master_barang";
-			$data['result'] = $this->crud->read('app_master_barang', array('status' => 1), null, null);
+				if ($willExpiredDay <= 7){
+					$count += 1;
+				}
+			}
+			$data['expired_count'] = $count;
+
 			$this->load->view("layouts/main", $data);
 		}
 
-		public function barangExpired(){
+		public function masterProduct(){
+			$data['content'] = "content/master_barang";
+			$data['result'] = $this->crud->read('app_master_product', null, null, null);
+			$this->load->view("layouts/main", $data);
+		}
+
+		public function sampleProduct($expired = null){
+			$data['content'] = "content/sample_barang";
+			$data['result'] = $this->crud->getBarang(1);
+			$data['expired'] = $expired;
+			$this->load->view("layouts/main", $data);
+		}
+
+		public function productExpired(){
 			$data['content'] = "content/list_barang_expired";
-			$data['result'] = $this->crud->read('app_master_barang', array('status' => 0), null, null);
+			$data['result'] = $this->crud->getBarang(0);
 			$this->load->view("layouts/main", $data);
 		}
 
@@ -60,7 +77,7 @@
 			$this->load->view("layouts/main",$data);
 		}
 
-		public function execute($type="",$act="",$id=""){
+		public function executeOld($type="",$act="",$id=""){
 			if($type == 'cetak'){
 				if($act == 'member'){
 					$data['result'] = $this->main->get_data('daftarmember',$id);
@@ -238,6 +255,66 @@
 			$this->load->view("layouts/main",$data);
 		}
 
+		public function add($form) {
+			$data['content'] = "content/_form/".$form;
+			if ($form == 'form_sample_product') {
+				$data['result'] = $this->crud->read('app_master_product', null, null, null);
+			}
+			$this->load->view("layouts/main", $data);
+		}
+
+		public function execute($type="", $act="", $id="") {
+			$post = $this->input->post();
+			if ($type == 'add') {
+				if ($act == 'sample_product') {
+					$this->db->insert('app_sample_product', $post);
+					$id = $this->db->insert_id();
+					$this->generateqrcode($id);
+
+					redirect(base_url('main/sampleBarang'), 'refresh');
+				}
+			}
+
+			if($type == 'get') {
+				if ($act == 'checkProduct') {
+					$generateQuery = $this->crud->getBarang(null, $post['id']);
+					if (count($generateQuery) > 0){
+						$result = $generateQuery[0];
+
+						$_view = '<div style="border: 2px solid red;border-radius: 10px;padding: 15px;font-weight: bold;">';
+							$_view .= '<div class="row">';
+								$_view .= '<div>';
+									$_view .= '<div style="border: 2px solid #cacaca;border-radius: 5px;">';
+										$_view .= '<div class="row">';
+											$_view .= 'Info Produk';
+										$_view .= '</div>';
+									$_view .= '</div>';
+									$_view .= '<div class="row">';
+										$_view .= '<div class="col-sm-6" align="right">Kode Produk</div>';
+										$_view .= '<div class="col-sm-6" align="left">'.$result->kode_product.'</div>';
+									$_view .= '</div>';
+									$_view .= '<div class="row">';
+										$_view .= '<div class="col-sm-6" align="right">Nama Produk</div>';
+										$_view .= '<div class="col-sm-6" align="left">'.$result->nama_product.'</div>';
+									$_view .= '</div>';
+									$_view .= '<div class="row">';
+										$_view .= '<div class="col-sm-6" align="right">Tanggal Expired</div>';
+										$_view .= '<div class="col-sm-6" align="left">'.$result->expired_date.'</div>';
+									$_view .= '</div>';
+								$_view .= '</div>';
+							$_view .= '</div>';
+							$_view .= '<div style="color: red;font-weight: bold;margin-top: 15px;">';
+								$_view .= 'testset';
+							$_view .= '</div>';
+						$_view .= '</div>';
+					} else {
+						$_view = '<h3>Data tidak ditemukan</h3>';
+					}
+
+					echo $_view;
+				}
+			}
+		}
 	}
 
 ?>
