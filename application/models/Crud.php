@@ -41,7 +41,6 @@ class Crud extends CI_Model{
 			$this->db->where('app_sample_product.id='.$id);
 		}
 		$query = $this->db->get();
-		// echo $this->db->last_query();
 
 		return $query->result();
 	}

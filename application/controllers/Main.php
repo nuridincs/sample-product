@@ -257,29 +257,46 @@
 
 		public function add($form) {
 			$data['content'] = "content/_form/".$form;
+
 			if ($form == 'form_sample_product') {
 				$data['result'] = $this->crud->read('app_master_product', null, null, null);
 			}
+
+			if ($form == 'form_master_product') {
+				$data['result'] = $this->crud->read('app_master_product', null, null, null);
+			}
+
 			$this->load->view("layouts/main", $data);
 		}
 
 		public function execute($type="", $act="", $id="") {
 			$post = $this->input->post();
 			if ($type == 'add') {
-				if ($act == 'sample_product') {
-					$this->db->insert('app_sample_product', $post);
+				if ($act == 'sampleProduct') {
+					$dataProduct = array(
+						'kode_product' => $post['kodeProducts'],
+						'expired_date' => $post['expiredDate'],
+					);
+					$this->db->insert('app_sample_product', $dataProduct);
 					$id = $this->db->insert_id();
-					$this->generateqrcode($id);
+				}
 
-					redirect(base_url('main/sampleBarang'), 'refresh');
+				if ($act == 'product') {
+					$this->db->insert('app_master_product', $post);
+					$id = $this->db->insert_id();
+					$this->generateBarcode($id);
+
+					redirect(base_url('main/masterProduct'), 'refresh');
 				}
 			}
 
-			if($type == 'get') {
+			if ($type == 'get') {
 				if ($act == 'checkProduct') {
-					$generateQuery = $this->crud->getBarang(null, $post['id']);
-					if (count($generateQuery) > 0){
-						$result = $generateQuery[0];
+					$generateQuery = $this->crud->read('app_master_product', array('id' => $post['id']), null, null);
+					$result = $generateQuery->result();
+
+					if (count($result) > 0){
+						$result = $result[0];
 
 						$_view = '<div style="border: 2px solid red;border-radius: 10px;padding: 15px;font-weight: bold;">';
 							$_view .= '<div class="row">';
@@ -287,6 +304,7 @@
 									$_view .= '<div style="border: 2px solid #cacaca;border-radius: 5px;">';
 										$_view .= '<div class="row">';
 											$_view .= 'Info Produk';
+											$_view .= '<input type="hidden" id="kodeProducts" value="'.$result->kode_product.'" />';
 										$_view .= '</div>';
 									$_view .= '</div>';
 									$_view .= '<div class="row">';
@@ -298,14 +316,14 @@
 										$_view .= '<div class="col-sm-6" align="left">'.$result->nama_product.'</div>';
 									$_view .= '</div>';
 									$_view .= '<div class="row">';
-										$_view .= '<div class="col-sm-6" align="right">Tanggal Expired</div>';
-										$_view .= '<div class="col-sm-6" align="left">'.$result->expired_date.'</div>';
+										$_view .= '<div class="col-sm-6" align="right">Masa Simpan</div>';
+										$_view .= '<div class="col-sm-6" align="left">'.$result->masa_simpan.' Tahun</div>';
 									$_view .= '</div>';
 								$_view .= '</div>';
 							$_view .= '</div>';
-							$_view .= '<div style="color: red;font-weight: bold;margin-top: 15px;">';
-								$_view .= 'testset';
-							$_view .= '</div>';
+							// $_view .= '<div style="color: red;font-weight: bold;margin-top: 15px;">';
+							// 	$_view .= 'testset';
+							// $_view .= '</div>';
 						$_view .= '</div>';
 					} else {
 						$_view = '<h3>Data tidak ditemukan</h3>';
@@ -314,6 +332,43 @@
 					echo $_view;
 				}
 			}
+
+			// if ($type == 'update') {
+			// 	if ($act == 'expiredDate') {
+			// 		print_r($post);
+			// 		$this->db->where('id', $post['id']);
+			// 		$this->db->update('app_master_p', $post['id']);
+			// 	}
+			// }
+		}
+
+		public function generateBarcode($id) {
+			$generateBarcode = $this->randomNumber();
+			$barcodeNumber = $generateBarcode. " " . $id;
+
+			$this->load->library('zend');
+			$this->zend->load('Zend/Barcode');
+			$image_resource = Zend_Barcode::factory('code128', 'image', array('text'=>$barcodeNumber), array())->draw();
+			$image_name     = $barcodeNumber.'.jpg';
+			$image_dir      = FCPATH . 'assets/barcode/';
+			imagejpeg($image_resource, $image_dir.$image_name);
+			$this->updateBarcodeNumber($id, $barcodeNumber);
+		}
+
+		public function updateBarcodeNumber($id, $barcode) {
+			$this->db->where('id', $id);
+			$this->db->update('app_master_product', array('barcode_number' => $barcode));
+		}
+
+		public function randomNumber($maxlength = 10) {
+			$chary = array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
+			$return_str = "";
+
+			for ( $x=0; $x<=$maxlength; $x++ ) {
+				$return_str .= $chary[rand(0, count($chary)-1)];
+			}
+
+			return $return_str;
 		}
 	}
 

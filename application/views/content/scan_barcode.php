@@ -39,6 +39,15 @@
                                 <div class="form-group">
                                     <button class="btn btn-primary btn-block" id="check-product">Cek Produk</button>
                                 </div>
+
+                                <div id="form-expired">
+                                    <div class="form-group">
+                                        <label>Masukan Tanggal Expired</label>&nbsp;<span class="error" id="expired_date"></span>
+                                        <input type="text" name="expired_date" id="expiredDate" class="form-control" required>
+                                        <br>
+                                        <button class="btn btn-danger btn-block" id="insert-expired-date">Simpan</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -51,6 +60,8 @@
                                 <h3>Scanned result</h3>
                                 <p id="scanned-QR"></p>
                                 <input type="hidden" id="qrcode" readonly class="form-control">
+                                <input type="hidden" id="barcodeNumber" readonly class="form-control">
+                                <input type="hidden" id="idProduct" readonly class="form-control">
                             </div>
                             <div class="p_result"></div>
                         </div>

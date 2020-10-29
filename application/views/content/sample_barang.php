@@ -3,16 +3,6 @@
 </div>
 <div class="row">
 	<div class="col-sm-12">
-		<div align="right">
-			<a href="<?= base_url('main/add/form_sample_product'); ?>" class="btn btn-primary">Tambah Barang</a>
-		</div>
-		<!-- <form action="<?php //echo base_url('main/daftarmember'); ?>" class="form-horizontal" method="post">
-			<input type="text" name="search2" id="search2" placeholder="Search..." required>
-			<button>Cari</button>
-			<a href="<?//= base_url('main/daftarmember') ?>" class="btn btn-default">
-				Lihat Semua
-			</a>
-		</form> -->
 		<table class="table table-hover">
 			<thead>
 				<tr>
@@ -21,7 +11,6 @@
 					<th>Nama Produk</th>
 					<th>Tanggal Expired</th>
 					<th>Status</th>
-					<th>Barcode</th>
 					<th>Action</th>
 				</tr>
 				</tr>
@@ -52,9 +41,6 @@
 				<td><?= $data->nama_product ?></td>
 				<td><?= date('d-m-Y', strtotime($data->expired_date)) ?></td>
 				<td><?= $status ?></td>
-				<td>
-					<img src="<?php echo base_url(); ?>assets/qrcode/<?php echo $data->id ?>.png" alt="" style="border-radius: 10px;border: 1px solid #000;margin: 5px;" class="img-responsive2">
-				</td>
 				<td>
 					<?= $btnArchive ?>
 					<a href="form/form_barang/edit/<?= $data->id ?>" class="btn btn-icon btn-primary">Edit</a>

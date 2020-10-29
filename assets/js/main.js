@@ -1,76 +1,53 @@
 $(document).ready(function(){
-    $("#savemember").click(function(){
-        var formData = new FormData(document.getElementById("tambahform"));
-        $.ajax({
-            url:'execute/save/member',
-            data:formData,
-            type:'POST',
-            contentType: false,
-            processData: false,
-            success:function(data){
-                console.log(data);
-                // $("#editModal").hide();
-                window.location.reload(true);
-            }
-        });
-    });
+  $('#form-expired').hide();
+  $("#check-product").click(() => {
+    // const qrcode = $("#qrcode").val(); // qrcode
+    const getBarcode = document.getElementById("scanned-QR").textContent; // barcode
+    const barcodeSplit = getBarcode.split(" ");
+    const barcode = barcodeSplit[1];
+    const id = barcodeSplit[2];
 
-    $(".edit").click(function(){
-        id = $(this).attr('id');
-        $.ajax({
-            url:'execute/getdata/member',
-            type:'POST',
-            data:{send:true,id:id},
-            success:function(data){
-                console.log(data['no_induk']);
-            }
-        });
-    });
+    if (getBarcode === "") {
+      alert("Silahkan Scan Barcode");
+      return false;
+    }
 
-    $(".p_inout").click(function(){
-        var no_induk = $("#p_no_induk").val(),
-            status = $(this).attr('id');
+    $("#barcodeNumber").val(barcode);
+    $("#idProduct").val(id);
 
-        if(typeof no_induk == 'undefined'){
-            no_induk = $("#qrcode").val();
-        }
-        if(no_induk == ""){
-            alert("No. Induk tidak ditemukan");
-            return false;
-        }
-            // console.log(no_induk);
-            // console.log(status);
-            // return false;
-        $.ajax({
-            url:'execute/save/inout',
-            type:'POST',
-            data:{
-                send:true,
-                no_induk:no_induk,
-                status:status
-            },
-            success:function(data){
-                // console.log(data);
-                $('.p_result').html(data);
-                setTimeout(() => {
-                    window.location.reload();
-                },30000);
-            }
-        });
+    $.ajax({
+      url:'execute/get/checkProduct',
+      type:'post',
+      data: {id,barcode},
+      success:function(data){
+        $('.p_result').html(data);
+        $('#form-expired').show();
+        setTimeout(() => {
+          $('.p_result').html('');
+          $('#form-expired').hide();
+        },100000);
+      }
     });
+  });
 
-    $("#check-product").click(function(){
-        const id = $("#qrcode").val();
-        $.ajax({
-            url:'execute/get/checkProduct',
-            type:'post',
-            data: {id},
-            success:function(data){
-                $('.p_result').html(data);
-                setTimeout(() => {
-                    $('.p_result').html('');
-                },100000);
-            }
-        });
+  $('#insert-expired-date').click(() => {
+    const id = $("#idProduct").val();
+    const barcode = $("#barcodeNumber").val();
+    const expiredDate = $("#expiredDate").val();
+    const kodeProducts = $("#kodeProducts").val();
+
+    if (expiredDate === "") {
+      alert("Tanggal Expired harus diisi!");
+      return false;
+    }
+
+    $.ajax({
+      url:'execute/add/sampleProduct',
+      type:'post',
+      data: { id, barcode, kodeProducts, expiredDate },
+      success:function() {
+        alert('Berhasil menambahkan data');
+      }
     });
+  })
 });

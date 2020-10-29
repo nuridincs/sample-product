@@ -6,9 +6,10 @@
 		<title>Sample Product</title>
 		<link href="<?php echo base_url('assets/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
 		<link href="<?php echo base_url('assets/css/style.css'); ?>" rel="stylesheet">
+		<!-- <link href="<?php //echo base_url('assets/css/font-awesome.css'); ?>" rel="stylesheet"> -->
 		<link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url('assets/img/parkir.png'); ?>" />
 
-  		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	</head>
 	<body>
 	<nav class="navbar navbar-default nav-t navbar-fixed-top">
