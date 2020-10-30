@@ -4,7 +4,7 @@
 <div class="row">
 	<div class="col-sm-12">
 		<div align="right">
-			<a href="<?= base_url('main/add/form_master_product'); ?>" class="btn btn-primary">Tambah Produk</a>
+			<a href="<?= base_url('main/form/form_master_product/add'); ?>" class="btn btn-primary">Tambah Produk</a>
 		</div>
 		<table class="table table-hover">
 			<thead>

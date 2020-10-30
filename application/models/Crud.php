@@ -71,5 +71,5 @@ class Crud extends CI_Model{
 		$this->db->where($cond);
 		$query = $this->db->delete($table);
 		return $query;
-	} //
+	}
 }

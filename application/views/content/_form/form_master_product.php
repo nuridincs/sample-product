@@ -21,6 +21,6 @@
         ?>
       </select>
     </div>
-    <button type="submit" class="btn btn-primary btn-block">Tambah</button>
+    <button type="submit" class="btn btn-primary btn-block"><?= $action ?></button>
   </form>
 </div>

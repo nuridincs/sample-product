@@ -28,11 +28,22 @@
 					$willExpiredDay = $interval->days;
 
 					if ($willExpiredDay <= 7){
-						$btnArchive = '<a href="form/form_barang/edit/<?= $data->id ?>" class="btn btn-icon btn-warning">Musnahkan</a>';
-						$status =  '<span class="label label-danger">Akan Kadaluarsa</span>';
+						$baseUrl = base_url('main/form/form_berita_acara/musnahkan/').$data->id;
+						$btnArchive = '<a href="'.$baseUrl.'" class="btn btn-icon btn-warning">Musnahkan</a>';
+						$status =  '<span class="label label-warning">Akan Kadaluarsa</span>';
+						if ($interval->invert == 1) {
+							$btnArchive = '<a href="'.$baseUrl.'" class="btn btn-icon btn-warning">Musnahkan</a>';
+							$status =  '<span class="label label-danger">Kadaluarsa</span>';
+						}
 					} else {
-						$btnArchive = "";
-						$status =  '<div class="label label-success"><i class="fa fa-check"></i> Ready</div>';
+						if ($interval->invert == 1) {
+							$baseUrl = base_url('main/form/form_berita_acara/musnahkan/').$data->id;
+							$btnArchive = '<a href="'.$baseUrl.'" class="btn btn-icon btn-warning">Musnahkan</a>';
+							$status =  '<span class="label label-danger">Kadaluarsa</span>';
+						} else {
+							$btnArchive = "";
+							$status =  '<div class="label label-success"><i class="fa fa-check"></i> Ready</div>';
+						}
 					}
 			?>
 				<tr>
@@ -43,8 +54,8 @@
 				<td><?= $status ?></td>
 				<td>
 					<?= $btnArchive ?>
-					<a href="form/form_barang/edit/<?= $data->id ?>" class="btn btn-icon btn-primary">Edit</a>
-					<button class="btn btn-icon btn-danger" data-toggle="tooltip" data-placement="top" title data-original-title="Hapus Barang" data-confirm="Apa Anda yakin ingin menghapus data ini?" data-confirm-yes="deleteData('<?= $data->id ?>');">Hapus</button>
+					<a href="form/form_sample_product/update/<?= $data->id ?>" class="btn btn-icon btn-primary">Edit</a>
+					<button class="btn btn-icon btn-danger" onclick="deleteData(<?php echo $data->id;?>);">Hapus</button>
 				</td>
 				</tr>
 			 <?php } ?>
@@ -52,3 +63,16 @@
 		</table>
 	</div>
 </div>
+
+<script>
+	var url="<?php echo base_url(); ?>";
+
+	function deleteData(id){
+		var r = confirm("Apa Anda yakin ingin menghapus data ini?");
+		if (r == true) {
+			window.location = url+"main/execute/delete/app_sample_product/"+id;
+		} else {
+			return false;
+		}
+	}
+</script>
