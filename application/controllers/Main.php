@@ -23,7 +23,7 @@
 				$interval = $date1->diff($date2);
 				$willExpiredDay = $interval->days;
 
-				if ($willExpiredDay <= 7){
+				if ($willExpiredDay <= 7 && $interval->invert == 0){
 					$count += 1;
 				}
 			}
@@ -40,7 +40,7 @@
 
 		public function sampleProduct($expired = null){
 			$data['content'] = "content/sample_barang";
-			$data['result'] = $this->crud->getBarang(1);
+			$data['result'] = $expired == null ? $this->crud->getBarang(1) : $this->crud->getProductExpired();
 			$data['expired'] = $expired;
 			$this->load->view("layouts/main", $data);
 		}
@@ -108,6 +108,13 @@
 			$mpdf->WriteHTML(utf8_encode($html));
 			$mpdf->Output($nama_dokumen.".pdf" ,'I');
 			exit;
+		}
+
+		public function cetak($type, $id){
+			if ($type == 'barcode') {
+				$_view = '<img src="'.base_url().'assets/barcode/'.$id.'.jpg" class="img-responsive2">';
+			}
+			echo $_view;
 		}
 
 		public function scanBarcode() {

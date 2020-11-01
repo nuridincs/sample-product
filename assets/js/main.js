@@ -49,5 +49,14 @@ $(document).ready(function(){
         alert('Berhasil menambahkan data');
       }
     });
-  })
+  });
+
+  $('#printBarcode').click(() => {
+    window.print();
+    console.log('print');
+  });
 });
+
+// function printBarcode(){
+//   window.print();
+// }

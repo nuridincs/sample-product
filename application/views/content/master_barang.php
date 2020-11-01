@@ -32,7 +32,7 @@
 				<td>
 					<img src="<?php echo base_url(); ?>assets/barcode/<?php echo $data->barcode_number ?>.jpg" class="img-responsive2">
 					<br>
-					<a href="<?= base_url('main/execute/cetak/barcode') ?>" class="btn btn-sm label label-danger">Cetak Barcode</a>
+					<a class="btn btn-sm label label-danger" href="#" onclick="window.open('<?= base_url('main/cetak/barcode/'.$data->barcode_number) ?>','POPUP WINDOW TITLE HERE','width=650,height=800').print()">Print Barcode</a>
 				</td>
 				<td>
 					<a href="form/form_barang/edit/<?= $data->id ?>" class="btn btn-icon btn-primary">Edit</a>

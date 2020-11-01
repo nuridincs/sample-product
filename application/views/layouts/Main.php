@@ -9,7 +9,8 @@
 		<!-- <link href="<?php //echo base_url('assets/css/font-awesome.css'); ?>" rel="stylesheet"> -->
 		<link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url('assets/img/parkir.png'); ?>" />
 
-		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<link rel="stylesheet" href="<?php echo base_url('assets/css/jquery-ui.css'); ?>">
+		<link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap-datepicker3.css'); ?>"/>
 	</head>
 	<body>
 	<nav class="navbar navbar-default nav-t navbar-fixed-top">
@@ -49,23 +50,17 @@
 	<div class="container">
 		<?php $this->load->view($content); ?>
 	</div>
-		<!-- <div class="wrapper-t">
-			<div class="right-content-t pad-t">
-				<?php //$this->load->view($content); ?>
-			</div>
-		</div> -->
 
 		<!-- external javascript -->
 		<script src="<?php echo base_url('assets/js/jquery.js'); ?>" type="text/javascript"></script>
 		<script src="<?php echo base_url('assets/js/main.js'); ?>" type="text/javascript"></script>
 		<script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js'); ?>" type="text/javascript"></script>
 
-  		<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
-  		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+		<script src="<?php echo base_url('assets/js/jquery-ui.js'); ?>"></script>
+		
 
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
-
+		<script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap-datepicker.min.js'); ?>"></script>
 	</body>
 </html>
 

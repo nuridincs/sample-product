@@ -37,9 +37,24 @@ class Crud extends CI_Model{
 			$this->db->where('app_sample_product.status='.$status);
 		}
 
+		if ($status == 0) {
+			$this->db->where('app_sample_product.status='.$status);
+		}
+
 		if ($id != null) {
 			$this->db->where('app_sample_product.id='.$id);
 		}
+		$query = $this->db->get();
+
+		return $query->result();
+	}
+
+	function getProductExpired() {
+		$this->db->select('*');
+		$this->db->from('app_master_product');
+		$this->db->join('app_sample_product', 'app_sample_product.kode_product=app_master_product.kode_product');
+		$this->db->where('app_sample_product.expired_date >= DATE(now())');
+		$this->db->where('app_sample_product.expired_date <= DATE_ADD(DATE(now()), INTERVAL 7 DAY)');
 		$query = $this->db->get();
 
 		return $query->result();
