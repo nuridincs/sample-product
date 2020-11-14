@@ -114,7 +114,35 @@
 			if ($type == 'barcode') {
 				$_view = '<img src="'.base_url().'assets/barcode/'.$id.'.jpg" class="img-responsive2">';
 			}
+
+			if ($type == 'expired') {
+				$result = $this->crud->getBarang(0, $id);
+				$row = $result[0];
+				$_view = $this->generateTable($row);
+			}
+
 			echo $_view;
+		}
+
+		private function generateTable($data) {
+			$_view = '<h4 align="center">Data Barang Expired</h4>';
+			$_view .= '<table widht=100 border=1 align="center">';
+				$_view .= '<thead>';
+					$_view .= '<th>Kode Produk</th>';
+					$_view .= '<th>Nama Produk</th>';
+					$_view .= '<th>Tanggal Expired</th>';
+					$_view .= '<th>Berita Acara</th>';
+				$_view .= '</thead>';
+
+				$_view .= '<tbody align="center">';
+					$_view .= '<td>'.$data->kode_product.'</td>';
+					$_view .= '<td>'.$data->nama_product.'</td>';
+					$_view .= '<td>'.date('d-m-Y', strtotime($data->expired_date)).'</td>';
+					$_view .= '<td>'.$data->berita_acara.'</td>';
+				$_view .= '</tbody>';
+			$_view .= '';
+
+			return $_view;
 		}
 
 		public function scanBarcode() {
