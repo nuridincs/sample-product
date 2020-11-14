@@ -58,7 +58,6 @@
 
 		<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 		<script src="<?php echo base_url('assets/js/jquery-ui.js'); ?>"></script>
-		
 
 		<script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap-datepicker.min.js'); ?>"></script>
 	</body>

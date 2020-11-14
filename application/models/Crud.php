@@ -87,4 +87,14 @@ class Crud extends CI_Model{
 		$query = $this->db->delete($table);
 		return $query;
 	}
+
+	function report() {
+		$sql = "SELECT *,count(app_sample_product.status) as total_data, case when app_sample_product.status = 0 then 'expired' else 'ready' end as status_expired
+					FROM `app_master_product`
+					JOIN `app_sample_product` ON `app_sample_product`.`kode_product`=`app_master_product`.`kode_product`
+					group by app_sample_product.status";
+		$query = $this->db->query($sql);
+
+		return $query->result();
+	}
 }

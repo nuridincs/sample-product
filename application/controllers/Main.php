@@ -58,12 +58,8 @@
 		}
 
 		public function report(){
-			$param = $this->input->post();
-			if(!empty($param)){
-				$data['result'] = $this->main->get_data('report',$param);
-			}
-			// $data['result'] = $this->main->get_data('report',$param);
-			$data['content'] = "content/report_keuangan";
+			$data['content'] = "content/report";
+			$data['result'] = $this->crud->report();
 			$this->load->view("layouts/main",$data);
 		}
 
@@ -121,11 +117,16 @@
 				$_view = $this->generateTable($row);
 			}
 
+			if ($type == 'laporan') {
+				$result = $this->crud->getBarang($id);
+				$_view = $this->generateTableReport($result);
+			}
+
 			echo $_view;
 		}
 
 		private function generateTable($data) {
-			$_view = '<h4 align="center">Data Barang Expired</h4>';
+			$_view = '<h2 align="center">Data Barang Expired</h2>';
 			$_view .= '<table widht=100 border=1 align="center">';
 				$_view .= '<thead>';
 					$_view .= '<th>Kode Produk</th>';
@@ -139,6 +140,31 @@
 					$_view .= '<td>'.$data->nama_product.'</td>';
 					$_view .= '<td>'.date('d-m-Y', strtotime($data->expired_date)).'</td>';
 					$_view .= '<td>'.$data->berita_acara.'</td>';
+				$_view .= '</tbody>';
+			$_view .= '';
+
+			return $_view;
+		}
+
+		private function generateTableReport($data) {
+			$_view = '<h2 align="center">Data Laporan</h2>';
+			$_view .= '<table widht=100 border=1 align="center">';
+				$_view .= '<thead>';
+					$_view .= '<th>Kode Produk</th>';
+					$_view .= '<th>Nama Produk</th>';
+					$_view .= '<th>Tanggal Expired</th>';
+					$_view .= '<th>Berita Acara</th>';
+				$_view .= '</thead>';
+
+				$_view .= '<tbody align="center">';
+					foreach($data as $value) {
+						$_view .= '<tr>';
+							$_view .= '<td>'.$value->kode_product.'</td>';
+							$_view .= '<td>'.$value->nama_product.'</td>';
+							$_view .= '<td>'.date('d-m-Y', strtotime($value->expired_date)).'</td>';
+							$_view .= '<td>'.$value->berita_acara.'</td>';
+						$_view .= '</tr>';
+					}
 				$_view .= '</tbody>';
 			$_view .= '';
 
