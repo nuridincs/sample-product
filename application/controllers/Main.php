@@ -165,6 +165,11 @@
 				$data['result'] = $query->row();
 			}
 
+			if ($form == 'form_user') {
+				$query = $this->crud->read('app_users', array('id' => $id), null, null);
+				$data['result'] = $query->row();
+			}
+
 			if ($form == 'form_berita_acara') {
 				$query = $this->crud->read('app_sample_product', array('id' => $id), null, null);
 				$data['result'] = $query->row();
@@ -205,6 +210,13 @@
 					$this->generateBarcode($id);
 
 					redirect(base_url('main/masterProduct'), 'refresh');
+				}
+
+				if ($act == 'user') {
+					$insertData = array('nama' => $post['nama'], 'email' => $post['email'], 'password' => md5($post['password']), 'role' => $post['role']);
+					$this->db->insert('app_users', $insertData);
+
+					redirect(base_url('main/kelolaUser'));
 				}
 			}
 
@@ -271,6 +283,19 @@
 					$this->db->update('app_master_product', array('nama_product' => $post['nama_product'], 'masa_simpan' => $post['masa_simpan']));
 
 					redirect(base_url('main/masterProduct'));
+				}
+
+				if ($act == 'user') {
+					$updateData = array('nama' => $post['nama'], 'email' => $post['email'], 'role' => $post['role']);
+
+					if ($post['password'] != "") {
+						$updateData['password'] = md5($post['password']);
+					}
+
+					$this->db->where('id', $post['id']);
+					$this->db->update('app_users', $updateData);
+
+					redirect(base_url('main/kelolaUser'));
 				}
 			}
 
