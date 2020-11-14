@@ -35,8 +35,8 @@
 					<a class="btn btn-sm label label-danger" href="#" onclick="window.open('<?= base_url('main/cetak/barcode/'.$data->barcode_number) ?>','POPUP WINDOW TITLE HERE','width=650,height=800').print()">Print Barcode</a>
 				</td>
 				<td>
-					<a href="form/form_barang/edit/<?= $data->id ?>" class="btn btn-icon btn-primary">Edit</a>
-					<button class="btn btn-icon btn-danger" data-toggle="tooltip" data-placement="top" title data-original-title="Hapus Barang" data-confirm="Apa Anda yakin ingin menghapus data ini?" data-confirm-yes="deleteData('<?= $data->id ?>');">Hapus</button>
+					<a href="form/form_master_product/update/<?= $data->id ?>" class="btn btn-icon btn-primary">Edit</a>
+					<button class="btn btn-icon btn-danger" onclick="deleteData(<?php echo $data->id;?>);">Hapus</button>
 				</td>
 				</tr>
 			 <?php } ?>
@@ -44,3 +44,15 @@
 		</table>
 	</div>
 </div>
+<script>
+	var url="<?php echo base_url(); ?>";
+
+	function deleteData(id){
+		var r = confirm("Apa Anda yakin ingin menghapus data ini?");
+		if (r == true) {
+			window.location = url+"main/execute/delete/app_master_product/"+id;
+		} else {
+			return false;
+		}
+	}
+</script>

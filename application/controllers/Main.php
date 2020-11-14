@@ -133,7 +133,8 @@
 			}
 
 			if ($form == 'form_master_product') {
-				$data['result'] = $this->crud->read('app_master_product', null, null, null);
+				$query = $this->crud->read('app_master_product', array('id' => $id), null, null);
+				$data['result'] = $query->row();
 			}
 
 			if ($form == 'form_berita_acara') {
@@ -235,6 +236,13 @@
 					$this->db->update('app_sample_product', array('expired_date' => $post['expired_date'], 'kode_product' => $post['kode_product']));
 
 					redirect(base_url('main/sampleProduct'));
+				}
+
+				if ($act == 'product') {
+					$this->db->where('id', $post['id']);
+					$this->db->update('app_master_product', array('nama_product' => $post['nama_product'], 'masa_simpan' => $post['masa_simpan']));
+
+					redirect(base_url('main/masterProduct'));
 				}
 			}
 
