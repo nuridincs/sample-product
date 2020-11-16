@@ -12,7 +12,7 @@
 		<div class="container">
 			<div class="col-sm-12 col-md-4 login-box-t col-md-offset-4">
 
-				<div align="center" style="color:#fff"><h3>Aplikasi Sampel Product</h3></div>
+				<div align="center" style="color:#fff"><h3>Aplikasi Sampel Produk</h3></div>
 				<br>
 				<form action="<?php echo site_url('login/loginProcess'); ?>" method="post">
 					<div class="form-group has-feedback">

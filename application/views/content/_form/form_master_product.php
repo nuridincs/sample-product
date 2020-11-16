@@ -5,7 +5,7 @@
     <div class="form-group">
       <input type="hidden" readonly name="id" value="<?= isset($result->id) ? $result->id : '' ?>">
       <label>Kode Produk</label>&nbsp;<span class="error" id="errKodeProduct"></span>
-      <input type="text" <?= $action == 'Add' ? '' : 'readonly' ?> name="kode_product" id="kodeProduct" value="<?= isset($result->kode_product) ? $result->kode_product : '' ?>" maxlength="6" class="form-control" required>
+      <input type="text" <?= $action == 'Add' ? '' : 'readonly' ?> name="kode_product" id="kodeProduct" value="<?= isset($result->kode_product) ? $result->kode_product : '' ?>" maxlength="10" class="form-control" required>
     </div>
     <div class="form-group">
       <label>Nama Produk</label>&nbsp;<span class="error" id="errorProductName"></span>
