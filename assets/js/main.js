@@ -1,11 +1,14 @@
 $(document).ready(function(){
   $('#form-expired').hide();
   $("#check-product").click(() => {
-    // const qrcode = $("#qrcode").val(); // qrcode
-    const getBarcode = document.getElementById("scanned-QR").textContent; // barcode
+    const getBarcode = $("#barcodeDocumentID").val();
+    // return false;
+    // // const qrcode = $("#qrcode").val(); // qrcode
+    // const getBarcode = document.getElementById("scanned-QR").textContent; // barcode
     const barcodeSplit = getBarcode.split(" ");
-    const barcode = barcodeSplit[1];
-    const id = barcodeSplit[2];
+    const barcode = barcodeSplit[0];
+    const id = barcodeSplit[1];
+
 
     if (getBarcode === "") {
       alert("Silahkan Scan Barcode");
@@ -47,6 +50,7 @@ $(document).ready(function(){
       data: { id, barcode, kodeProducts, expiredDate },
       success:function() {
         alert('Berhasil menambahkan data');
+        window.location.reload();
       }
     });
   });
@@ -55,8 +59,8 @@ $(document).ready(function(){
     window.print();
     console.log('print');
   });
-});
 
-// function printBarcode(){
-//   window.print();
-// }
+  $("#clearBarcode").click(() => {
+    window.location.reload();
+  })
+});
